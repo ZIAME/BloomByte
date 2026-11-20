@@ -1,0 +1,56 @@
+{
+  "name": "bloombyte",
+  "productName": "BloomByte",
+  "version": "0.5.0",
+  "description": "A tiny pixel-art focus timer that grows butterflies.",
+  "main": "main.js",
+  "author": "Ziana",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "store": "electron-builder --win appx --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "homepage": "https://github.com/ZIAME/BloomByte",
+  "build": {
+    "appId": "com.bloombyte.app",
+    "productName": "BloomByte",
+    "copyright": "\u00a9 2026 Ziana",
+    "directories": {
+      "output": "dist-store",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "package.json",
+      "src/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "appx",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "src/assets/icon256.png"
+    },
+    "appx": {
+      "identityName": "Ziana.BloomByte",
+      "publisher": "CN=41E6278F-259A-4C52-B53B-38D1733B8AB3",
+      "publisherDisplayName": "Ziana",
+      "applicationId": "BloomByte",
+      "displayName": "BloomByte",
+      "backgroundColor": "#BFDDF2",
+      "showNameOnTiles": false,
+      "languages": [
+        "en-US"
+      ]
+    }
+  }
+}

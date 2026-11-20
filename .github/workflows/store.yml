@@ -1,0 +1,33 @@
+name: Build Microsoft Store package
+
+# Runs on a Windows machine in GitHub's cloud and produces the .appx file
+# to upload in Partner Center. Start it from the Actions tab ("Run workflow"),
+# or it runs automatically whenever the desktop-app branch changes.
+on:
+  workflow_dispatch:
+  push:
+    branches: [desktop-app]
+
+jobs:
+  store-package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build the Store package (unsigned; Microsoft signs it after certification)
+        run: npm run store
+
+      - name: Upload the package
+        uses: actions/upload-artifact@v4
+        with:
+          name: BloomByte-Store-package
+          path: dist-store/*.appx
+          if-no-files-found: error
