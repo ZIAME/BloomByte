@@ -21,7 +21,7 @@ The Store build is made by GitHub Actions on a Windows machine:
 
 Before each new Store submission, raise `version` in `package.json` (e.g. 0.5.0 → 0.5.1). The Store needs every upload to have a higher version.
 
-Package identity (from Partner Center) lives in `package.json` → `build.appx`.
+Package identity (from Partner Center) lives in `package.json` → `build.appx`. Listing text: `STORE_LISTING.md`. Privacy policy: `PRIVACY.md`.
 
 ## Where things are
 
