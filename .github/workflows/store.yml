@@ -25,6 +25,22 @@ jobs:
       - name: Build the Store package (unsigned; Microsoft signs it after certification)
         run: npm run store
 
+      - name: Show package identity (should match Partner Center)
+        shell: pwsh
+        run: |
+          $appx = Get-ChildItem dist-store -Filter *.appx | Select-Object -First 1
+          Write-Host "Package file: $($appx.Name)  ($([math]::Round($appx.Length/1MB,1)) MB)"
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($appx.FullName)
+          $entry = $zip.Entries | Where-Object { $_.FullName -eq 'AppxManifest.xml' }
+          $reader = New-Object System.IO.StreamReader($entry.Open())
+          [xml]$m = $reader.ReadToEnd(); $reader.Close(); $zip.Dispose()
+          Write-Host "Identity Name : $($m.Package.Identity.Name)"
+          Write-Host "Publisher     : $($m.Package.Identity.Publisher)"
+          Write-Host "Version       : $($m.Package.Identity.Version)"
+          Write-Host "Display name  : $($m.Package.Properties.DisplayName)"
+          Write-Host "Publisher name: $($m.Package.Properties.PublisherDisplayName)"
+
       - name: Upload the package
         uses: actions/upload-artifact@v4
         with:
